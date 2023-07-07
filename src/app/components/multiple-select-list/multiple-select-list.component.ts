@@ -14,6 +14,12 @@ export class MultipleSelectListComponent implements OnInit {
   @Output() cancelEmitter = new EventEmitter<any>();
 
   ngOnInit() {
+    this.loadDatas();
+  }
+  loadDatas() {
+    if (!this.datas || !this.selectedDatas) {
+      return;
+    }
     this.datas = [
       ...this.selectedDatas.map((course) => {
         return { ...course, isSelected: true };
