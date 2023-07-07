@@ -1,71 +1,94 @@
-<div class="container-fluid ">
-    <div *ngFor="let student of students">
-         <div class="img-card row m-4">
-             <div class="col-2 card-media">
-                 <img src="https://www.svgrepo.com/download/5125/avatar.svg" 
-                    class="card-media-img" width="120px" height="150px"/>
-             </div>
-             
-             <div class="col card-body w-50">
-                <h2 class="card-body-heading pb-4">{{student.name}}</h2>
-                <div class="card-body-options">
-                    <div class="card-body-option card-body-option-share m-4" 
-                        (click)="deleteStudent(student.id)">
-                        <i class="bi bi-trash3-fill" ></i>
-                    </div>
-                    <div class="card-body-option card-body-option-share"
-                        (click)="editStudent(student)">
-                        <i class="bi bi-pen-fill ml-2"></i>
-                    </div>
-                </div>
-                <div class="row">
-                    <button class="card-button card-button-cta w-75"
-                        (click)="openCoursesModal(student)"
-                    >Ver cursos</button>
-                </div>
-             </div>
-             
-         </div>
-     </div>
-     
-     <div class="floating-action-button u-flex-center"
-        (click)="openModal()">
-        <i class="bi bi-person-fill-add"></i>
-     </div>
-</div>
- 
- 
-<ng-template #addModal let-c="close" let-d="dismiss">
-    <div class="modal-header">
-        <h4 class="modal-title">Aluno</h4>
-    </div>
-    <form  [formGroup]="studentForm" (ngSubmit)="addStudent()">
-        <div class="modal-body">
-            <div>
-                <label for="name">Nome:</label>
-                <input type="text" name="name" formControlName="name">
+<div class="container-fluid w-100">
+  <div class="row w-100">
+    <div *ngFor="let student of students" class="container-card m-4 col-sm-3 w-25">
+      <div>
+        <header>
+          <div class="avatarcontainer mt-4">
+            <img src="../../assets/person.png" alt="avatar" class="avatar" />
+            <div class="hover">
+              <div class="icon-twitter"></div>
             </div>
+          </div>
+          <div class="data row">
+            <li class="m-auto">
+              <h3>{{ student.name }}</h3>
+            </li>
+          </div>
+
+          <div class="card-body-options">
+            <div
+              class="card-body-option card-body-option-share m-2 data"
+              (click)="deleteStudent(student.id)"
+            >
+              <i class="bi bi-trash3-fill"></i>
+            </div>
+            <div
+              class="card-body-option card-body-option-share data"
+              (click)="editStudent(student)"
+            >
+              <i class="bi bi-pen-fill ml-2"></i>
+            </div>
+          </div>
+        </header>
+
+        <div>
+          <div class="data row m-auto">
+            <ul>
+              <li class="m-auto">
+                {{ student.courses.length }}
+                <span>Matriculas</span>
+              </li>
+            </ul>
+          </div>
+
+          <button
+            class="d-block card-button card-button-cta m-auto w-50"
+            (click)="openCoursesModal(student)"
+          >
+            <div class="icon-twitter"></div>
+            Cursos
+          </button>
         </div>
-        <div class="modal-footer">
-            <button type="submit" class="btn btn-light">Enviar</button>
-        </div>
-    </form>
+      </div>
+    </div>
+  </div>
+
+  
+</div>
+<div class="floating-action-button u-flex-center" (click)="openModal()">
+  <i class="bi bi-person-fill-add"></i>
+</div>
+
+<ng-template #addModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Aluno</h4>
+  </div>
+  <form [formGroup]="studentForm" (ngSubmit)="addStudent()">
+    <div class="modal-body">
+      <div>
+        <label for="name">Nome:</label>
+        <input type="text" name="name" formControlName="name" />
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="submit" class="btn btn-light">Enviar</button>
+    </div>
+  </form>
 </ng-template>
 
 <ng-template #coursesModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Cursos</h4>
+  </div>
+  <div class="modal-body">
+    <app-multiple-select-list
+      [datas]="courses"
+      [selectedDatas]="currentStudent.courses"
+      [titleIndex]="'description'"
+      (sentEmitter)="coursesSave($event)"
+      (cancelEmitter)="courseModalInstance.close()"
+    ></app-multiple-select-list>
+  </div>
 
-    <div class="modal-header">
-        <h4 class="modal-title">Cursos</h4>
-    </div>
-        <div class="modal-body">
-            <app-multiple-select-list
-                [data]="coursesList"
-                (sentEmitter)="coursesSave($event)"
-                (cancelEmitter)="courseModalInstance.close()"
-            ></app-multiple-select-list>
-        </div>
-
-        <div class="modal-footer">
-        </div>
-
+  <div class="modal-footer"></div>
 </ng-template>

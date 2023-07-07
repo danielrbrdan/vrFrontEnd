@@ -1,8 +1,7 @@
-import { CourseDto } from "./course.dto";
+import { CourseDto } from './course.dto';
 
 export class StudentDto {
-    id!: number;
-    name!: string;
-    courses!: CourseDto[];
-  }
-  
+  id!: number;
+  name!: string;
+  courses!: CourseDto[];
+}

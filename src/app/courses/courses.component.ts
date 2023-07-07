@@ -10,9 +10,9 @@ import { StudentDto } from '../models/dto/student.dto';
 @Component({
   selector: 'app-courses',
   templateUrl: './courses.component.html',
-  styleUrls: ['./courses.component.scss']
+  styleUrls: ['./courses.component.scss'],
 })
-export class CoursesComponent implements OnInit{
+export class CoursesComponent implements OnInit {
   courses!: CourseDto[];
 
   courseForm = this.formBuilder.group({
@@ -20,7 +20,7 @@ export class CoursesComponent implements OnInit{
     description: '',
     subject: '',
   });
-  
+
   addModalInstance!: NgbModalRef;
   currentCourse!: CourseDto;
   studentsList!: any[];
@@ -31,7 +31,7 @@ export class CoursesComponent implements OnInit{
     private modalService: NgbModal,
     private courseService: CourseService,
     private formBuilder: FormBuilder,
-    private studentService: StudentService
+    private studentService: StudentService,
   ) {}
 
   ngOnInit(): void {
@@ -40,44 +40,70 @@ export class CoursesComponent implements OnInit{
   }
 
   loadCourses() {
-    this.courseService.findAll().pipe(
-      tap(courses => {
-        this.courses = courses
-      })
-    ).subscribe();
+    this.courseService
+      .findAll()
+      .pipe(
+        tap((courses) => {
+          this.courses = courses;
+        }),
+      )
+      .subscribe();
   }
 
   loadStudents() {
-    this.studentService.findAll().pipe(
-      tap(students => {
-        this.students = students
-      })
-    ).subscribe();
+    this.studentService
+      .findAll()
+      .pipe(
+        tap((students) => {
+          this.students = students;
+        }),
+      )
+      .subscribe();
   }
 
-  @ViewChild('addModal') 
+  @ViewChild('addModal')
   addModal!: ViewContainerRef;
   openModal() {
-    this.addModalInstance = this.modalService.open(this.addModal, { size: 'md' }) 
+    this.addModalInstance = this.modalService.open(this.addModal, {
+      size: 'md',
+    });
+    this.addModalInstance.result.then(
+      (result) => {
+        this.courseForm.reset();
+      },
+      (reason) => {
+        this.courseForm.reset();
+      },
+    );
   }
 
   addCourse() {
-    let course: CourseDto = {...this.courseForm.value as CourseDto};
-    this.courseService.save(course).pipe(
-      tap (()=> {
-        this.loadCourses();
-        this.addModalInstance.close();
-        this.courseForm.reset();
-      })
-    ).subscribe();
+    let course: CourseDto = { ...(this.courseForm.value as CourseDto) };
+    this.courseService
+      .save(course)
+      .pipe(
+        tap(() => {
+          this.loadCourses();
+          this.addModalInstance.close();
+          this.courseForm.reset();
+        }),
+      )
+      .subscribe();
   }
 
   deleteCourse(courseId: number) {
-    this.courseService.deleteById(courseId).pipe(
-      tap (()=> {
-        this.loadCourses();
-      })
-    ).subscribe();
+    if (!confirm("Deseja realmente deletar o curso?")){
+      return;
+    }
+
+    this.courseService
+      .deleteById(courseId)
+      .pipe(
+        tap(() => {
+          this.loadCourses();
+        }),
+      )
+      .subscribe();
   }
 
   editCourse(course: CourseDto) {
@@ -85,34 +111,27 @@ export class CoursesComponent implements OnInit{
     this.openModal();
   }
 
-  @ViewChild('studentsModal') 
+  @ViewChild('studentsModal')
   studentsModal!: ViewContainerRef;
   openStudentsModal(course: CourseDto) {
     this.currentCourse = course;
-    
-    this.studentsList = [
-      ...this.students.filter(student => 
-        !course.students.some(courseStudent => courseStudent.id === student.id)
-      ),
-      ...course.students.map(student => {
-        return {...student, isSelected: true}
-      })
-    ]
-    .map(student => {
-      return {...student, title: student.name}
+    this.studentsModalInstance = this.modalService.open(this.studentsModal, {
+      size: 'md',
     });
-
-    this.studentsModalInstance = this.modalService.open(this.studentsModal, { size: 'md' });
   }
 
-  studentsSave(students: any[]){
-    this.currentCourse.students = students.filter(student => student.isSelected)
-    this.courseService.save(this.currentCourse).pipe(
-      tap(()=> {
-        this.loadCourses();
-        this.studentsModalInstance.close();
-      })
-    ).subscribe()
+  studentsSave(students: any[]) {
+    this.currentCourse.students = students.filter(
+      (student) => student.isSelected,
+    );
+    this.courseService
+      .save(this.currentCourse)
+      .pipe(
+        tap(() => {
+          this.loadCourses();
+          this.studentsModalInstance.close();
+        }),
+      )
+      .subscribe();
   }
-
 }
