@@ -5,7 +5,7 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { StudentDto } from '../models/dto/student.dto';
-import { tap } from 'rxjs';
+import { catchError, tap, throwError } from 'rxjs';
 import { StudentService } from '../services/student.service';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder } from '@angular/forms';
@@ -106,6 +106,10 @@ export class StudentsComponent {
         tap(() => {
           this.loadStudents();
         }),
+        catchError(err => {
+          alert(err.error.message)
+          return throwError(err);
+      })
       )
       .subscribe();
   }

@@ -14,7 +14,7 @@ export class CourseService {
   }
 
   deleteById(courseId: number) {
-    return this.http.delete<void>(
+    return this.http.delete<any>(
       `${API_CONFIG.baseUrl}${this.basePath}/${courseId}`,
     );
   }

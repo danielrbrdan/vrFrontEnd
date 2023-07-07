@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { CourseDto } from '../models/dto/course.dto';
 import { CourseService } from '../services/course.service';
-import { tap } from 'rxjs';
+import { catchError, tap, throwError } from 'rxjs';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder } from '@angular/forms';
 import { StudentService } from '../services/student.service';
@@ -102,6 +102,10 @@ export class CoursesComponent implements OnInit {
         tap(() => {
           this.loadCourses();
         }),
+        catchError(err => {
+          alert(err.error.message)
+          return throwError(err);
+      })
       )
       .subscribe();
   }
