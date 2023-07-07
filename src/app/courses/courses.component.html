@@ -1,88 +1,85 @@
 <div class="container-fluid">
-   <div *ngFor="let course of courses">
-        <div class="img-card row m-4">
-            <div class="col-2 card-media">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJj9pwCuichxareyMm7qtVmxDVFv_stgnnU1FgHmLwGEoMyWRT56BGSW4vBEu7qoKJUzo&usqp=CAU" 
-                    class="card-media-img" width="120px" height="150px"/>
+  <div class="row w-100">
+    <div *ngFor="let course of courses" class="col-md-4">
+      <div class="card my-3">
+        <img
+          class="card-img-top"
+          src="../../assets/video.jpg"
+          alt="Card image cap"
+        />
+        <div class="card-body">
+          <div class="card-body-options">
+            <div
+              class="card-body-option card-body-option-share m-4"
+              (click)="deleteCourse(course.id)"
+            >
+              <i class="bi bi-trash3-fill"></i>
             </div>
-            
-            <div class="col card-body w-50">
-                <h2 class="card-body-heading">{{course.description}}</h2>
-                <div class="card-body-options">
-                    <div class="card-body-option card-body-option-share m-4" 
-                        (click)="deleteCourse(course.id)">
-                        <i class="bi bi-trash3-fill" ></i>
-                    </div>
-                    <div class="card-body-option card-body-option-share"
-                        (click)="editCourse(course)">
-                        <i class="bi bi-pen-fill ml-2"></i>
-                    </div>
-                </div>
-                <ul class="card-body-stars u-clearfix">
-                    <li>
-                        <i class="bi bi-star-fill p-1"></i>
-                        <i class="bi bi-star-fill p-1"></i>
-                        <i class="bi bi-star-fill p-1"></i>
-                        <i class="bi bi-star-fill p-1"></i>
-                        <i class="bi bi-star-fill p-1"></i>
-                    </li>
-                </ul>
-                <div class="row pt-3 pl-3">
-                    <button class="card-button card-button-cta col ml-2"
-                        (click)="openStudentsModal(course)"    
-                    >Matriculas</button>
-                    <div class="col-1"></div>
-                    <button class="card-button card-button-link col">Mais informações</button>
-                </div>
+            <div
+              class="card-body-option card-body-option-share"
+              (click)="editCourse(course)"
+            >
+              <i class="bi bi-pen-fill ml-2"></i>
             </div>
-            
+          </div>
+          <h5 class="card-title">{{ course.description }}</h5>
+          <p class="card-text">{{ course.subject }}</p>
+          <ul class="card-body-stars u-clearfix">
+            <li>
+                <i class="bi bi-star-fill p-1"></i>
+                <i class="bi bi-star-fill p-1"></i>
+                <i class="bi bi-star-fill p-1"></i>
+                <i class="bi bi-star-fill p-1"></i>
+                <i class="bi bi-star-fill p-1"></i>
+            </li>
+        </ul>
+          <a (click)="openStudentsModal(course)" 
+            class="btn btn-primary card-button card-button-cta">
+            Matriculas</a>
         </div>
+      </div>
     </div>
-    
-    <div class="floating-action-button u-flex-center" (click)="openModal()">
-        <i class="bi bi-plus-circle-fill"></i>
-    </div>
+  </div>
+
+  <div class="floating-action-button u-flex-center" (click)="openModal()">
+    <i class="bi bi-plus-circle-fill"></i>
+  </div>
 </div>
 
-
 <ng-template #addModal let-c="close" let-d="dismiss">
-    <div class="modal-header">
-        <h4 class="modal-title">Curso</h4>
+  <div class="modal-header">
+    <h4 class="modal-title">Curso</h4>
+  </div>
+  <form [formGroup]="courseForm" (ngSubmit)="addCourse()">
+    <div class="modal-body">
+      <div>
+        <label for="description">Descrição:</label>
+        <input type="text" name="description" formControlName="description" />
+
+        <label for="subject">Resumo:</label>
+        <input type="text" name="subject" formControlName="subject" />
+      </div>
     </div>
-    <form  [formGroup]="courseForm" (ngSubmit)="addCourse()">
-        <div class="modal-body">
 
-            <div>
-                <label for="description">Descrição:</label>
-                <input type="text" name="description" formControlName="description">
-
-                <label for="subject">Resumo:</label>
-                <input type="text" name="subject" formControlName="subject">
-            </div>
-
-        </div>
-
-        <div class="modal-footer">
-            <button type="submit" class="btn btn-light">Enviar</button>
-        </div>
-    </form>
-
+    <div class="modal-footer">
+      <button type="submit" class="btn btn-light">Enviar</button>
+    </div>
+  </form>
 </ng-template>
 
 <ng-template #studentsModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Alunos</h4>
+  </div>
+  <div class="modal-body">
+    <app-multiple-select-list
+      [datas]="students"
+      [selectedDatas]="currentCourse.students"
+      [titleIndex]="'name'"
+      (sentEmitter)="studentsSave($event)"
+      (cancelEmitter)="studentsModalInstance.close()"
+    ></app-multiple-select-list>
+  </div>
 
-    <div class="modal-header">
-        <h4 class="modal-title">Alunos</h4>
-    </div>
-        <div class="modal-body">
-            <app-multiple-select-list
-                [data]="studentsList"
-                (sentEmitter)="studentsSave($event)"
-                (cancelEmitter)="studentsModalInstance.close()"
-            ></app-multiple-select-list>
-        </div>
-
-        <div class="modal-footer">
-        </div>
-
+  <div class="modal-footer"></div>
 </ng-template>

@@ -8,7 +8,7 @@ describe('MultipleSelectListComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [MultipleSelectListComponent]
+      declarations: [MultipleSelectListComponent],
     });
     fixture = TestBed.createComponent(MultipleSelectListComponent);
     component = fixture.componentInstance;

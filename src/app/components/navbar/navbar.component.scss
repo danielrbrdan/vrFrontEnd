@@ -9,7 +9,7 @@
   position: fixed;
   width: 60px;
   height: 100%;
-  background: #ff7700;
+  background: #f1a040;
   overflow: hidden;
   transition: 0.5s;
 }
@@ -80,7 +80,7 @@
   transition: 0.7s;
 }
 
-.toggle.active {
+.active {
   background: #ff7700;
 }
 

@@ -1,11 +1,13 @@
 <div class="navigation">
-<ul>
+  <ul>
     <li *ngFor="let menu of menus">
-    <a [href]="menu.href">
+      <a
+        [routerLink]="menu.href"
+        [ngClass]="isCurrentRoute(menu.href) ? 'active' : ''"
+      >
         <span class="icon"><i [class]="menu.icon"></i></span>
-        <span class="title">{{menu.title}}</span>
-    </a>
+        <span class="title">{{ menu.title }}</span>
+      </a>
     </li>
-</ul>
+  </ul>
 </div>
-

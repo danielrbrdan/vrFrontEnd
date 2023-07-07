@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
@@ -6,16 +7,22 @@ import { Component } from '@angular/core';
   styleUrls: ['./navbar.component.scss'],
 })
 export class NavbarComponent {
+  constructor(private router: Router) {}
+
   readonly menus = [
     {
-      title: "Cursos",
-      href: "/courses",
-      icon: "bi bi-film"
+      title: 'Cursos',
+      href: '/courses',
+      icon: 'bi bi-film',
     },
     {
-      title: "Alunos",
-      href: "/students",
-      icon: "bi bi-file-earmark-person"
+      title: 'Alunos',
+      href: '/students',
+      icon: 'bi bi-file-earmark-person',
     },
-  ]
+  ];
+
+  isCurrentRoute(routerName: string) {
+    return this.router.url == routerName;
+  }
 }

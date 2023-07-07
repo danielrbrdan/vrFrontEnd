@@ -1,24 +1,38 @@
 <div class="col">
-    <div class="row" *ngFor="let element of data">
-        <div class="card">
-            <div class="col">
-                <p>{{element.title}}</p>
+  <div class="row card my-3 mx-1" *ngFor="let element of datas">
+    <div class="task-list current">
+      <ul>
+        <li>
+          <div class="checkbox">
+            <div class="check">
+              <input
+                type="checkbox"
+                name="task_00"
+                [(ngModel)]="element.isSelected"
+              />
+              <div class="check-container">
+                <div class="check-off"></div>
+                <div class="check-on"><i></i></div>
+              </div>
             </div>
-            <div class="col">
-                <input type="checkbox" [(ngModel)]="element.isSelected">
+            <div class="label">
+              <mark
+                ><p>{{ element.title }}</p></mark
+              >
+              <br />
+              <p class="p-2 text-muted">{{ element?.subject }}</p>
             </div>
-
-
-        </div>
+          </div>
+        </li>
+      </ul>
     </div>
-    
-    <div class="row">
-        <div class="col">
-            <button (click)="cancel()">Cancelar</button>
-        </div>
+  </div>
 
-        <div class="col">
-            <button (click)="send()">Salvar</button>
-        </div>
+  <div class="row">
+    <div class="col">
+      <button (click)="send()" class="btn btn-light float-right m-1">Salvar</button>
+      <button (click)="cancel()" class="btn btn-light float-right m-1">Cancelar</button>
     </div>
+
+  </div>
 </div>

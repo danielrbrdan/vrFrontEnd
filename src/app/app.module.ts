@@ -20,7 +20,7 @@ import { MultipleSelectListComponent } from './components/multiple-select-list/m
     NavbarComponent,
     CoursesComponent,
     StudentsComponent,
-    MultipleSelectListComponent
+    MultipleSelectListComponent,
   ],
   imports: [
     BrowserModule,
@@ -29,10 +29,7 @@ import { MultipleSelectListComponent } from './components/multiple-select-list/m
     FormsModule,
     ReactiveFormsModule,
   ],
-  providers: [
-    CourseService,
-    StudentService
-  ],
-  bootstrap: [AppComponent]
+  providers: [CourseService, StudentService],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
