@@ -19,7 +19,9 @@
                     </div>
                 </div>
                 <div class="row">
-                    <button class="card-button card-button-cta w-75">Matricular curso</button>
+                    <button class="card-button card-button-cta w-75"
+                        (click)="openCoursesModal(student)"
+                    >Ver cursos</button>
                 </div>
              </div>
              
@@ -48,4 +50,22 @@
             <button type="submit" class="btn btn-light">Enviar</button>
         </div>
     </form>
+</ng-template>
+
+<ng-template #coursesModal let-c="close" let-d="dismiss">
+
+    <div class="modal-header">
+        <h4 class="modal-title">Cursos</h4>
+    </div>
+        <div class="modal-body">
+            <app-multiple-select-list
+                [data]="coursesList"
+                (sentEmitter)="coursesSave($event)"
+                (cancelEmitter)="courseModalInstance.close()"
+            ></app-multiple-select-list>
+        </div>
+
+        <div class="modal-footer">
+        </div>
+
 </ng-template>

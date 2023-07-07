@@ -28,7 +28,9 @@
                     </li>
                 </ul>
                 <div class="row pt-3 pl-3">
-                    <button class="card-button card-button-cta col ml-2">Matricular alunos</button>
+                    <button class="card-button card-button-cta col ml-2"
+                        (click)="openStudentsModal(course)"    
+                    >Matriculas</button>
                     <div class="col-1"></div>
                     <button class="card-button card-button-link col">Mais informações</button>
                 </div>
@@ -64,5 +66,23 @@
             <button type="submit" class="btn btn-light">Enviar</button>
         </div>
     </form>
+
+</ng-template>
+
+<ng-template #studentsModal let-c="close" let-d="dismiss">
+
+    <div class="modal-header">
+        <h4 class="modal-title">Alunos</h4>
+    </div>
+        <div class="modal-body">
+            <app-multiple-select-list
+                [data]="studentsList"
+                (sentEmitter)="studentsSave($event)"
+                (cancelEmitter)="studentsModalInstance.close()"
+            ></app-multiple-select-list>
+        </div>
+
+        <div class="modal-footer">
+        </div>
 
 </ng-template>

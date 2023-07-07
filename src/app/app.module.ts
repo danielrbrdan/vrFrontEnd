@@ -11,6 +11,7 @@ import { CourseService } from './services/course.service';
 import { HttpClientModule } from '@angular/common/http';
 import { StudentService } from './services/student.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MultipleSelectListComponent } from './components/multiple-select-list/multiple-select-list.component';
 
 @NgModule({
   declarations: [
@@ -18,14 +19,15 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ComponentsComponent,
     NavbarComponent,
     CoursesComponent,
-    StudentsComponent
+    StudentsComponent,
+    MultipleSelectListComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
   providers: [
     CourseService,
