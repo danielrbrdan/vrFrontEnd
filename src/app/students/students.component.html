@@ -1,0 +1,51 @@
+<div class="container-fluid ">
+    <div *ngFor="let student of students">
+         <div class="img-card row m-4">
+             <div class="col-2 card-media">
+                 <img src="https://www.svgrepo.com/download/5125/avatar.svg" 
+                    class="card-media-img" width="120px" height="150px"/>
+             </div>
+             
+             <div class="col card-body w-50">
+                <h2 class="card-body-heading pb-4">{{student.name}}</h2>
+                <div class="card-body-options">
+                    <div class="card-body-option card-body-option-share m-4" 
+                        (click)="deleteStudent(student.id)">
+                        <i class="bi bi-trash3-fill" ></i>
+                    </div>
+                    <div class="card-body-option card-body-option-share"
+                        (click)="editStudent(student)">
+                        <i class="bi bi-pen-fill ml-2"></i>
+                    </div>
+                </div>
+                <div class="row">
+                    <button class="card-button card-button-cta w-75">Matricular curso</button>
+                </div>
+             </div>
+             
+         </div>
+     </div>
+     
+     <div class="floating-action-button u-flex-center"
+        (click)="openModal()">
+        <i class="bi bi-person-fill-add"></i>
+     </div>
+</div>
+ 
+ 
+<ng-template #addModal let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title">Aluno</h4>
+    </div>
+    <form  [formGroup]="studentForm" (ngSubmit)="addStudent()">
+        <div class="modal-body">
+            <div>
+                <label for="name">Nome:</label>
+                <input type="text" name="name" formControlName="name">
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-light">Enviar</button>
+        </div>
+    </form>
+</ng-template>

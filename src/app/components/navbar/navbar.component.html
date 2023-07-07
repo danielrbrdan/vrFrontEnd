@@ -1,0 +1,11 @@
+<div class="navigation">
+<ul>
+    <li *ngFor="let menu of menus">
+    <a [href]="menu.href">
+        <span class="icon"><i [class]="menu.icon"></i></span>
+        <span class="title">{{menu.title}}</span>
+    </a>
+    </li>
+</ul>
+</div>
+
