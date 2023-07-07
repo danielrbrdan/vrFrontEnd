@@ -4,6 +4,8 @@ import { tap } from 'rxjs';
 import { StudentService } from '../services/student.service';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder } from '@angular/forms';
+import { CourseService } from '../services/course.service';
+import { CourseDto } from '../models/dto/course.dto';
 
 @Component({
   selector: 'app-students',
@@ -19,21 +21,37 @@ export class StudentsComponent {
   });
 
   addModalInstance!: NgbModalRef;
+  courseModalInstance!: NgbModalRef;
+  courses!: CourseDto[];
+  coursesList!: any[];
+  currentStudent!: StudentDto;
+  
 
   constructor(
     private modalService: NgbModal,
     private studentService: StudentService,
     private formBuilder: FormBuilder,
+    private courseService: CourseService,
+    
   ) {}
 
   ngOnInit(): void {
+    this.loadStudents();
     this.loadCourses();
   }
 
-  loadCourses() {
+  loadStudents() {
     this.studentService.findAll().pipe(
       tap(students => {
         this.students = students
+      })
+    ).subscribe();
+  }
+
+  loadCourses() {
+    this.courseService.findAll().pipe(
+      tap(courses => {
+        this.courses = courses
       })
     ).subscribe();
   }
@@ -48,7 +66,7 @@ export class StudentsComponent {
     let student: StudentDto = {...this.studentForm.value as StudentDto};
     this.studentService.save(student).pipe(
       tap (()=> {
-        this.loadCourses();
+        this.loadStudents();
         this.addModalInstance.close();
         this.studentForm.reset();
       })
@@ -58,7 +76,7 @@ export class StudentsComponent {
   deleteStudent(studentId: number) {
     this.studentService.deleteById(studentId).pipe(
       tap (()=> {
-        this.loadCourses();
+        this.loadStudents();
       })
     ).subscribe();
   }
@@ -66,5 +84,35 @@ export class StudentsComponent {
   editStudent(student: StudentDto) {
     this.studentForm.patchValue(student);
     this.openModal();
+  }
+
+  @ViewChild('coursesModal') 
+  coursesModal!: ViewContainerRef;
+  openCoursesModal(student: StudentDto) {
+    this.currentStudent = student;
+    
+    this.coursesList = [
+      ...this.courses.filter(course => 
+        !student.courses.some(studentCourse => studentCourse.id === course.id)
+      ),
+      ...student.courses.map(course => {
+        return {...course, isSelected: true}
+      })
+    ]
+    .map(course => {
+      return {...course, title: course.description}
+    });
+
+    this.courseModalInstance = this.modalService.open(this.coursesModal, { size: 'md' });
+  }
+
+  coursesSave(courses: any[]){
+    this.currentStudent.courses = courses.filter(course => course.isSelected)
+    this.studentService.save(this.currentStudent).pipe(
+      tap(()=> {
+        this.loadStudents();
+        this.courseModalInstance.close();
+      })
+    ).subscribe()
   }
 }
