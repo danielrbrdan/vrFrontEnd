@@ -5,6 +5,7 @@
 
   .nav-sidebar {
     width: 70px;
+    z-index: 100;
   }
   .container-fluid {
     margin: 50px 15% auto;
@@ -137,7 +138,6 @@
     height: 100%;
     position: relative;
     z-index: 1;
-    background: #ffffff;
     text-align: center;
   }
 
