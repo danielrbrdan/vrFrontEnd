@@ -9,6 +9,11 @@
     
 }
 
+.card-title {
+    min-height: 2em;
+    max-height: 2em;
+}
+
 ::-webkit-scrollbar {
-    width: 10px; /* Adjust the width as desired */
+    width: 10px;
 }
