@@ -2,6 +2,7 @@
 
 describe('Courses', () => {
   beforeEach(() => {
+    cy.viewport(1920, 1080);
     cy.visit('/courses');
   })
 
@@ -10,8 +11,8 @@ describe('Courses', () => {
       const initialLength = cards.length;
 
       cy.get('.floating-action-button').click();
-      cy.get('input[name="description"]').type('New Course');
-      cy.get('input[name="subject"]').type('Course Subject');
+      cy.get('#description').type('New Course');
+      cy.get('#subject').type('Course Subject');
       cy.get('.modal-footer button[type="submit"]').click();
 
       cy.get('.card').should('have.length', initialLength + 1);
@@ -25,10 +26,10 @@ describe('Courses', () => {
     cy.get('.card').last().find('#course-btn-edit').click();
   
     const updatedDescription = 'Updated Course Description';
-    cy.get('input[name="description"]').clear().type(updatedDescription);
+    cy.get('#description').clear().type(updatedDescription);
   
     const updatedSubject = 'Updated Course Subject';
-    cy.get('input[name="subject"]').clear().type(updatedSubject);
+    cy.get('#subject').clear().type(updatedSubject);
 
     cy.get('.modal-footer button[type="submit"]').click();
 
