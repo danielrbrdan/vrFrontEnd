@@ -30,6 +30,7 @@ export class StudentsComponent {
   courses!: CourseDto[];
   coursesList!: any[];
   currentStudent!: StudentDto;
+  filteredStudents!: StudentDto[];
 
   constructor(
     private modalService: NgbModal,
@@ -48,7 +49,7 @@ export class StudentsComponent {
       .findAll()
       .pipe(
         tap((students) => {
-          this.students = students;
+          this.students = this.filteredStudents = students;
         }),
       )
       .subscribe();
@@ -87,6 +88,7 @@ export class StudentsComponent {
       .save(student)
       .pipe(
         tap(() => {
+          this.filteredStudents = [];
           this.loadStudents();
           this.addModalInstance.close();
           this.studentForm.reset();
@@ -139,5 +141,12 @@ export class StudentsComponent {
         }),
       )
       .subscribe();
+  }
+
+  filterItems(searchEvent: any) {
+    let searchTerm: string = searchEvent?.target.value
+    this.filteredStudents = this.students.filter(item =>
+      item.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
   }
 }

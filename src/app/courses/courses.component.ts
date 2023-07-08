@@ -26,6 +26,7 @@ export class CoursesComponent implements OnInit {
   studentsList!: any[];
   students!: StudentDto[];
   studentsModalInstance!: NgbModalRef;
+  filteredCourses!: CourseDto[];
 
   constructor(
     private modalService: NgbModal,
@@ -44,7 +45,7 @@ export class CoursesComponent implements OnInit {
       .findAll()
       .pipe(
         tap((courses) => {
-          this.courses = courses;
+          this.courses = this.filteredCourses = courses;
         }),
       )
       .subscribe();
@@ -83,6 +84,7 @@ export class CoursesComponent implements OnInit {
       .save(course)
       .pipe(
         tap(() => {
+          this.filteredCourses = [];
           this.loadCourses();
           this.addModalInstance.close();
           this.courseForm.reset();
@@ -137,5 +139,12 @@ export class CoursesComponent implements OnInit {
         }),
       )
       .subscribe();
+  }
+
+  filterItems(searchEvent: any) {
+    let searchTerm: string = searchEvent?.target.value
+    this.filteredCourses = this.courses.filter(item =>
+      item.description.toLowerCase().includes(searchTerm.toLowerCase())
+    );
   }
 }

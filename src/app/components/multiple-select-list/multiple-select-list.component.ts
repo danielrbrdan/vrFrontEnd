@@ -9,6 +9,7 @@ export class MultipleSelectListComponent implements OnInit {
   @Input() datas!: any[];
   @Input() selectedDatas!: any[];
   @Input() titleIndex = 'title';
+  filteredDatas: any;
 
   @Output() sentEmitter = new EventEmitter<any>();
   @Output() cancelEmitter = new EventEmitter<any>();
@@ -20,7 +21,7 @@ export class MultipleSelectListComponent implements OnInit {
     if (!this.datas || !this.selectedDatas) {
       return;
     }
-    this.datas = [
+    this.filteredDatas = this.datas = [
       ...this.selectedDatas.map((course) => {
         return { ...course, isSelected: true };
       }),
@@ -41,5 +42,12 @@ export class MultipleSelectListComponent implements OnInit {
 
   cancel() {
     this.cancelEmitter.emit(this.datas);
+  }
+
+  filterItems(searchEvent: any) {
+    let searchTerm: string = searchEvent?.target.value
+    this.filteredDatas = this.datas.filter(item =>
+      item.title.toLowerCase().includes(searchTerm.toLowerCase())
+    );
   }
 }

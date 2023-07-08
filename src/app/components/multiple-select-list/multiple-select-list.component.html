@@ -1,5 +1,10 @@
 <div class="col">
-  <div class="row card my-3 mx-1" *ngFor="let element of datas">
+  <form>
+    <input type="text" (input)="filterItems($event)" 
+      placeholder="Pesquisar" autofocus>
+  </form>
+
+  <div class="row card my-3 mx-1" *ngFor="let element of filteredDatas">
     <div class="task-list current">
       <ul>
         <li>
