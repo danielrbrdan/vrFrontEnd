@@ -47,8 +47,8 @@
   .card-body-options {
     position: absolute;
     float: right;
-    top: 0.5em;
-    right: 1em;
+    top: 0em;
+    right: 0.5em;
 
     i {
       font-size: 20px;
@@ -141,7 +141,7 @@
     text-align: center;
   }
 
-  form input {
+  form input, form textarea{
     font-family: "Roboto", sans-serif;
     outline: 0;
     background: #f2f2f2;

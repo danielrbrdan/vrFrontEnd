@@ -5,11 +5,11 @@
         (input)="filterItems($event)" 
         placeholder="Pesquisar" autofocus>
     </form>
-    <div *ngFor="let course of filteredCourses" class="col-md-3 m-4">
-      <div class="card my-3 mb-1">
+    <div *ngFor="let course of filteredCourses" class="col-sm-3 m-4">
+      <div class="card my-3 mb-0">
         <img
           class="card-img-top"
-          src="../../assets/video.jpg"
+          src="../../assets/video.png"
           alt="Card image cap"
         />
         <div class="card-body">
@@ -29,7 +29,7 @@
               <i class="bi bi-pen-fill ml-2"></i>
             </div>
           </div>
-          <h5 class="card-title">{{ course.description }}</h5>
+          <h5 class="card-title w-75">{{ course.description }}</h5>
           <p class="card-text">{{ course.subject }}</p>
           <ul class="card-body-stars u-clearfix">
             <li>
@@ -41,7 +41,7 @@
             </li>
         </ul>
           <a (click)="openStudentsModal(course)" 
-            class="btn btn-primary card-button card-button-cta">
+            class="btn btn-primary card-button card-button-cta w-100">
             Matriculas</a>
         </div>
       </div>
@@ -64,7 +64,7 @@
         <input type="text" name="description" formControlName="description" />
 
         <label for="subject">Resumo:</label>
-        <input type="text" name="subject" formControlName="subject" />
+        <textarea type="text" name="subject" formControlName="subject"></textarea>
       </div>
     </div>
 
