@@ -1,6 +1,6 @@
 <div class="navigation">
   <ul>
-    <li *ngFor="let menu of menus">
+    <li *ngFor="let menu of menus" class="pb-1">
       <a
         [routerLink]="menu.href"
         [ngClass]="isCurrentRoute(menu.href) ? 'active' : ''"

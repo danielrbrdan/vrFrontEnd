@@ -1,3 +1,19 @@
 .card {
     min-width: 16em;
 }
+
+.card-text {
+    min-height: 2em;
+    max-height: 7em;
+    overflow: auto;
+    
+}
+
+.card-title {
+    min-height: 2em;
+    max-height: 2em;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
